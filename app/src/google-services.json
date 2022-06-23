@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "31671587591",
+    "project_id": "fasterclicker-c74bd",
+    "storage_bucket": "fasterclicker-c74bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31671587591:android:94ce830401083610f4eba2",
+        "android_client_info": {
+          "package_name": "com.example.applikacja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31671587591-mpuodtnvqd27mklhiea396ihtcj0fs13.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlAldCj3sijURKGASXrKsYbGtUlsh0EaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31671587591-mpuodtnvqd27mklhiea396ihtcj0fs13.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
