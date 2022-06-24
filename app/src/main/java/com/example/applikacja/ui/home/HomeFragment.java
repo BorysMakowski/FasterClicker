@@ -56,19 +56,65 @@ public class HomeFragment extends Fragment {
         new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final Button startButton = root.findViewById(R.id.startButton);
+        final Button startButton2 = root.findViewById(R.id.startButton2);
         final Button gameButtonGreen = root.findViewById(R.id.gameButtonGreen);
         final Button gameButtonRed = root.findViewById(R.id.gameButtonRed);
         final Button gameButtonBlue = root.findViewById(R.id.gameButtonBlue);
         final TextView result = root.findViewById(R.id.result);
 
-
+        startButton2.setVisibility(View.INVISIBLE);
+        startButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startButton.setVisibility(View.VISIBLE);
+                startButton2.setVisibility(View.INVISIBLE);
+            }
+        });
 
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startButton.setVisibility(View.INVISIBLE);
+            startButton.setVisibility(View.INVISIBLE);
 
+
+                gameButtonBlue.setVisibility(View.VISIBLE);
+                randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
+                color = 0 + (int) (Math.random() * ((100 - 0) + 1));
+                Log.d("randnum", String.valueOf(randNum));
+                Log.d("color", String.valueOf(color));
+                    handler.postDelayed(new Runnable() {
+                        public void run(){
+                            randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
+
+                            if (color > 50) {
+                                Log.d("green", String.valueOf(randNum));
+                                gameButtonBlue.setVisibility(View.INVISIBLE);
+                                gameButtonGreen.setVisibility(View.VISIBLE);
+
+                                handler.postDelayed(() -> {
+                                    gameButtonGreen.setVisibility(View.INVISIBLE);
+                                }, randNum);
+
+                            } else {
+                                Log.d("red", String.valueOf(randNum));
+                                gameButtonBlue.setVisibility(View.INVISIBLE);
+                                gameButtonRed.setVisibility(View.VISIBLE);
+
+                                handler.postDelayed(() -> {
+                                    gameButtonRed.setVisibility(View.INVISIBLE);
+                                }, randNum);
+
+
+                            }
+
+                            startButton2.setVisibility(View.VISIBLE);
+                        }
+                    }, randNum);
+
+
+
+                /*
 
   //////////////////////
                 for (int i = 0; i < 5; i++) {
@@ -91,7 +137,7 @@ public class HomeFragment extends Fragment {
                                         public void run() {
                                             if (greenClicked)
                                             {
-                                                greenClicked = false;
+                                               // greenClicked = false;
                                             }
                                             else
                                             {
@@ -120,7 +166,7 @@ public class HomeFragment extends Fragment {
                 }
 ///////////średni wynik
 
-
+*/
 
 
 
