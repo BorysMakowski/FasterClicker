@@ -40,8 +40,8 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     long startTime;
     long difference;
-    int Min = 500;
-    int Max = 4000;
+    int Min = 1000;
+    int Max = 7000;
     int randNum;
     int color;
     boolean blueClicked = false;
@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
         final Button gameButtonGreen = root.findViewById(R.id.gameButtonGreen);
         final Button gameButtonRed = root.findViewById(R.id.gameButtonRed);
         final Button gameButtonBlue = root.findViewById(R.id.gameButtonBlue);
-        final TextView result = root.findViewById(R.id.result);
+
 
         startButton2.setVisibility(View.INVISIBLE);
         startButton2.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 startButton.setVisibility(View.VISIBLE);
                 startButton2.setVisibility(View.INVISIBLE);
+                gameButtonGreen.setText("Click me!");
             }
         });
 
@@ -87,14 +88,14 @@ public class HomeFragment extends Fragment {
                         public void run(){
                             randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
 
-                            if (color > 50) {
+                            if (color > 30) {
                                 Log.d("green", String.valueOf(randNum));
                                 gameButtonBlue.setVisibility(View.INVISIBLE);
                                 gameButtonGreen.setVisibility(View.VISIBLE);
-
+                                startTime = System.currentTimeMillis();
                                 handler.postDelayed(() -> {
                                     gameButtonGreen.setVisibility(View.INVISIBLE);
-                                }, randNum);
+                                }, 2000);
 
                             } else {
                                 Log.d("red", String.valueOf(randNum));
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment {
 
                                 handler.postDelayed(() -> {
                                     gameButtonRed.setVisibility(View.INVISIBLE);
-                                }, randNum);
+                                }, 1500);
 
 
                             }
@@ -111,82 +112,24 @@ public class HomeFragment extends Fragment {
                             startButton2.setVisibility(View.VISIBLE);
                         }
                     }, randNum);
-
-
-
-                /*
-
-  //////////////////////
-                for (int i = 0; i < 5; i++) {
-                    gameButtonBlue.setVisibility(View.VISIBLE);
-                    blueClicked = false;
-                    randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
-                    color = 0 + (int) (Math.random() * ((100 - 0) + 1));
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            if (!blueClicked)
-                            {
-                                gameButtonBlue.setVisibility(View.INVISIBLE);
-                                if (color > 30) {
-                                    gameButtonGreen.setVisibility(View.VISIBLE);
-                                    startTime = System.currentTimeMillis();
-
-
-                                    new Timer().schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            if (greenClicked)
-                                            {
-                                               // greenClicked = false;
-                                            }
-                                            else
-                                            {
-                                                result.setText("too slow");
-                                            }
-                                            gameButtonGreen.setVisibility(View.INVISIBLE);
-                                        }
-                                    }, 1000);
-
-
-                                    //wait for click
-                                } else
-                                {
-                                    gameButtonRed.setVisibility(View.VISIBLE);
-                                    new Timer().schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            gameButtonRed.setVisibility(View.INVISIBLE);
-                                        }
-                                    }, 1000);
-                                }
-                            }
-                        }
-
-                    }, randNum);
-                }
-///////////średni wynik
-
-*/
-
-
-
             }
         });
 
         gameButtonBlue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                result.setText("too fast");
-                blueClicked = true;
+                gameButtonBlue.setVisibility(View.INVISIBLE);
+                startButton2.setText("Too fast!");
+                startButton2.setVisibility(View.VISIBLE);
             }
         });
 
         gameButtonGreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                gameButtonGreen.setVisibility(View.INVISIBLE);
                 difference = System.currentTimeMillis() - startTime;
-                result.setText(String.valueOf(difference) + " ms");
+                startButton2.setText(String.valueOf(difference) + " ms");
                 scores.add((int)difference);
             }
         });
@@ -194,7 +137,9 @@ public class HomeFragment extends Fragment {
         gameButtonRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                result.setText("u not supposed to click that");
+                gameButtonRed.setVisibility(View.INVISIBLE);
+                startButton2.setText("Don't click on red!");
+                startButton2.setVisibility(View.VISIBLE);
             }
         });
 

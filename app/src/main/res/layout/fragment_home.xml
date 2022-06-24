@@ -8,77 +8,66 @@
 
     <Button
         android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="Button"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="Start!"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <Button
         android:id="@+id/startButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:text="Try again"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/gameButtonGreen"
-        android:layout_width="161dp"
-        android:layout_height="176dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="#4CAF50"
-        android:text="Click me!"
+        tools:visibility="invisible"
         android:visibility="invisible"
         app:backgroundTint="#4CAF50"
+        android:text="Click me!"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startButton"
-        tools:visibility="invisible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/gameButtonRed"
-        android:layout_width="166dp"
-        android:layout_height="184dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="#FF0000"
-        android:text="Don't click me!"
         android:visibility="invisible"
         app:backgroundTint="#FF0000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startButton"
-        tools:visibility="invisible" />
+        tools:visibility="invisible"
+        android:text="Don't click me!"
 
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="67dp"
-        android:layout_height="17dp"
-        android:layout_marginBottom="100dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+/>
 
     <Button
         android:id="@+id/gameButtonBlue"
-        android:layout_width="160dp"
-        android:layout_height="175dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="#2196F3"
-        android:text="Get ready!"
-        android:visibility="invisible"
         app:backgroundTint="#2196F3"
+        android:visibility="invisible"
+        tools:visibility="invisible"
+        android:text="Get ready!"
+
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startButton"
-        tools:visibility="invisible" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
