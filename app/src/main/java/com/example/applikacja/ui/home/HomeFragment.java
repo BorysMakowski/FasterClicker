@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.applikacja.Game1Activity;
+import com.example.applikacja.Game2Activity;
 import com.example.applikacja.MainActivity;
 import com.example.applikacja.R;
 import com.example.applikacja.ui.login.LoginActivity;
@@ -38,111 +40,33 @@ import java.util.concurrent.TimeUnit;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    long startTime;
-    long difference;
-    int Min = 1000;
-    int Max = 7000;
-    int randNum;
-    int color;
-    boolean blueClicked = false;
-    boolean greenClicked = false;
-    Vector<Integer> scores = new Vector<Integer>();
-
-    Handler handler = new Handler();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
         new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final Button startButton = root.findViewById(R.id.startButton);
-        final Button startButton2 = root.findViewById(R.id.startButton2);
-        final Button gameButtonGreen = root.findViewById(R.id.gameButtonGreen);
-        final Button gameButtonRed = root.findViewById(R.id.gameButtonRed);
-        final Button gameButtonBlue = root.findViewById(R.id.gameButtonBlue);
 
+        Button game1 = root.findViewById(R.id.game1button);
+        Button game2 = root.findViewById(R.id.game2button);
 
-        startButton2.setVisibility(View.INVISIBLE);
-        startButton2.setOnClickListener(new View.OnClickListener() {
+        game1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startButton.setVisibility(View.VISIBLE);
-                startButton2.setVisibility(View.INVISIBLE);
-                gameButtonGreen.setText("Click me!");
+
+                Intent intent = new Intent(getActivity(), Game1Activity.class);
+                startActivity(intent);
             }
         });
 
-
-        startButton.setOnClickListener(new View.OnClickListener() {
+        game2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-            startButton.setVisibility(View.INVISIBLE);
+            public void onClick(View v) {
 
-
-                gameButtonBlue.setVisibility(View.VISIBLE);
-                randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
-                color = 0 + (int) (Math.random() * ((100 - 0) + 1));
-                Log.d("randnum", String.valueOf(randNum));
-                Log.d("color", String.valueOf(color));
-                    handler.postDelayed(new Runnable() {
-                        public void run(){
-                            randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
-
-                            if (color > 30) {
-                                Log.d("green", String.valueOf(randNum));
-                                gameButtonBlue.setVisibility(View.INVISIBLE);
-                                gameButtonGreen.setVisibility(View.VISIBLE);
-                                startTime = System.currentTimeMillis();
-                                handler.postDelayed(() -> {
-                                    gameButtonGreen.setVisibility(View.INVISIBLE);
-                                }, 2000);
-
-                            } else {
-                                Log.d("red", String.valueOf(randNum));
-                                gameButtonBlue.setVisibility(View.INVISIBLE);
-                                gameButtonRed.setVisibility(View.VISIBLE);
-
-                                handler.postDelayed(() -> {
-                                    gameButtonRed.setVisibility(View.INVISIBLE);
-                                }, 1500);
-
-
-                            }
-
-                            startButton2.setVisibility(View.VISIBLE);
-                        }
-                    }, randNum);
+                Intent intent = new Intent(getActivity(), Game2Activity.class);
+                startActivity(intent);
             }
         });
-
-        gameButtonBlue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameButtonBlue.setVisibility(View.INVISIBLE);
-                startButton2.setText("Too fast!");
-                startButton2.setVisibility(View.VISIBLE);
-            }
-        });
-
-        gameButtonGreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameButtonGreen.setVisibility(View.INVISIBLE);
-                difference = System.currentTimeMillis() - startTime;
-                startButton2.setText(String.valueOf(difference) + " ms");
-                scores.add((int)difference);
-            }
-        });
-
-        gameButtonRed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameButtonRed.setVisibility(View.INVISIBLE);
-                startButton2.setText("Don't click on red!");
-                startButton2.setVisibility(View.VISIBLE);
-            }
-        });
-
 
 
         return root;

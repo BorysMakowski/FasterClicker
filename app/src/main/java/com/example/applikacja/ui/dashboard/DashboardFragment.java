@@ -1,5 +1,6 @@
 package com.example.applikacja.ui.dashboard;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,6 +34,9 @@ public class DashboardFragment extends Fragment {
     public LinkedList<QueryDocumentSnapshot> scores;
     public LinkedList<TextView> board;
 
+    public boolean compare(QueryDocumentSnapshot a, QueryDocumentSnapshot b){
+        return Integer.parseInt(String.valueOf(a.getData().get("score"))) < Integer.parseInt(String.valueOf(b.getData().get("score")));
+    }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
@@ -67,16 +72,18 @@ public class DashboardFragment extends Fragment {
         db.collection("scores")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 scores.add(document);
                                 Log.d("Success", document.getId() + " => " + document.getData());
-                                for(int i=0; i<scores.size(); i++){
-                                    if(scores.get(i) != null)
-                                        board.get(i).setText(String.valueOf(scores.get(i).getData().get("user") + " " + String.valueOf(scores.get(i).getData().get("score"))));
-                                }
+
+                            }
+                            for(int i=0; i<scores.size(); i++){
+                                if(scores.get(i) != null)
+                                    board.get(i).setText(String.valueOf(scores.get(i).getData().get("user") + " " + String.valueOf(scores.get(i).getData().get("score"))));
                             }
                         } else {
                             Log.w("Failure", "Error getting documents.", task.getException());
