@@ -1,9 +1,12 @@
 package com.example.applikacja.ui.notifications;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.applikacja.MainActivity;
 import com.example.applikacja.R;
+import com.example.applikacja.ui.login.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class NotificationsFragment extends Fragment {
 
@@ -28,6 +34,18 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
+            }
+        });
+
+        Button logout = root.findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+
             }
         });
         return root;
