@@ -24,6 +24,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -81,6 +83,14 @@ public class DashboardFragment extends Fragment {
                                 Log.d("Success", document.getId() + " => " + document.getData());
 
                             }
+
+                            Collections.sort(scores, new Comparator<QueryDocumentSnapshot>() {
+                                @Override
+                                public int compare(QueryDocumentSnapshot t0, QueryDocumentSnapshot t1) {
+                                    return Integer.valueOf(String.valueOf(t0.getData().get("score"))) - Integer.valueOf(String.valueOf(t1.getData().get("score")));
+                                }
+
+                            });
                             for(int i=0; i<scores.size(); i++){
                                 if(scores.get(i) != null)
                                     board.get(i).setText(String.valueOf(scores.get(i).getData().get("user") + " " + String.valueOf(scores.get(i).getData().get("score"))));

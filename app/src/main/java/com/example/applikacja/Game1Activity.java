@@ -12,8 +12,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.applikacja.ui.home.HomeViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
+
+import static android.content.ContentValues.TAG;
 
 public class Game1Activity extends AppCompatActivity {
 
@@ -26,11 +38,18 @@ public class Game1Activity extends AppCompatActivity {
     int color;
     boolean blueClicked = false;
     boolean greenClicked = false;
+    String userEmail;
     Vector<Integer> scores = new Vector<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        userEmail = auth.getCurrentUser().getEmail();
+        Log.d("Email", userEmail);
+
 
        Handler handler = new Handler();
 
@@ -109,7 +128,29 @@ public class Game1Activity extends AppCompatActivity {
                     gameButtonGreen.setVisibility(View.INVISIBLE);
                     difference = System.currentTimeMillis() - startTime;
                     startButton2.setText(String.valueOf(difference) + " ms");
-                    scores.add((int)difference);
+                    //scores.add((int)difference);
+
+                    Map<String, Object> score = new HashMap<>();
+                    score.put("user", userEmail);
+                    score.put("score", difference);
+                    score.put("date", Calendar.getInstance().getTime());
+
+
+
+                    db.collection("scores")
+                            .add(score)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
                 }
             });
 

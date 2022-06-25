@@ -1,6 +1,7 @@
 package com.example.applikacja.ui.notifications;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +20,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.applikacja.MainActivity;
 import com.example.applikacja.R;
 import com.example.applikacja.ui.login.LoginActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 
 public class NotificationsFragment extends Fragment {
 
@@ -29,13 +40,51 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+        final TextView textView = root.findViewById(R.id.textViewEmail);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        textView.setText(auth.getCurrentUser().getEmail());
+
+        final TextView textViewBestScore = root.findViewById(R.id.textViewBestScore);
+
+
+
+        LinkedList<QueryDocumentSnapshot> scores = new LinkedList<QueryDocumentSnapshot>();
+        db.collection("scores")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                scores.add(document);
+                                Log.d("Success", document.getId() + " => " + document.getData());
+
+                            }
+
+                            Collections.sort(scores, new Comparator<QueryDocumentSnapshot>() {
+                                @Override
+                                public int compare(QueryDocumentSnapshot t0, QueryDocumentSnapshot t1) {
+                                    return Integer.valueOf(String.valueOf(t1.getData().get("score"))) - Integer.valueOf(String.valueOf(t0.getData().get("score")));
+                                }
+
+                            });
+                            for(int i=0; i<scores.size(); i++){
+                                Log.d("Success", String.valueOf(scores.get(i).get("user")) + " => " + String.valueOf(auth.getCurrentUser().getEmail()));
+                                if(String.valueOf(scores.get(i).get("user")).equals(String.valueOf(auth.getCurrentUser().getEmail())))
+                                    textViewBestScore.setText("Your fastest click: " + scores.get(i).get("score") + " ms");
+                                else
+                                    textViewBestScore.setText("Click faster!");
+
+                            }
+                        } else {
+                            Log.w("Failure", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
 
         Button logout = root.findViewById(R.id.logout);
 
