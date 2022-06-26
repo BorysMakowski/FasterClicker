@@ -30,6 +30,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
+
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
@@ -79,8 +81,12 @@ public class DashboardFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                scores.add(document);
-                                Log.d("Success", document.getId() + " => " + document.getData());
+                                if (!isNull(document.get("score")) && Integer.valueOf(String.valueOf(document.get("score"))) != 0)
+                                {
+                                    scores.add(document);
+                                    Log.d("Success", document.getId() + " => " + document.getData());
+                                }
+
 
                             }
 
@@ -93,7 +99,7 @@ public class DashboardFragment extends Fragment {
                             });
                             for(int i=0; i<scores.size(); i++){
                                 if(scores.get(i) != null)
-                                    board.get(i).setText(String.valueOf(scores.get(i).getData().get("user") + " " + String.valueOf(scores.get(i).getData().get("score"))));
+                                    board.get(i).setText(String.valueOf(scores.get(i).getData().get("userName") + ": " + String.valueOf(scores.get(i).getData().get("score")) + " ms"));
                             }
                         } else {
                             Log.w("Failure", "Error getting documents.", task.getException());

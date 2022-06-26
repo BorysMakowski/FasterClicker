@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import static android.content.ContentValues.TAG;
+import static java.sql.Types.NULL;
 
 public class Game1Activity extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class Game1Activity extends AppCompatActivity {
     boolean blueClicked = false;
     boolean greenClicked = false;
     String userEmail;
+    String userName;
     Vector<Integer> scores = new Vector<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class Game1Activity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        userName = auth.getCurrentUser().getDisplayName();
         userEmail = auth.getCurrentUser().getEmail();
         Log.d("Email", userEmail);
 
@@ -64,6 +67,7 @@ public class Game1Activity extends AppCompatActivity {
             startButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    blueClicked = false;
                     startButton.setVisibility(View.VISIBLE);
                     startButton2.setVisibility(View.INVISIBLE);
                     gameButtonGreen.setText("Click me!");
@@ -83,7 +87,8 @@ public class Game1Activity extends AppCompatActivity {
                     Log.d("randnum", String.valueOf(randNum));
                     Log.d("color", String.valueOf(color));
                     handler.postDelayed(new Runnable() {
-                        public void run(){
+                        public void run() {
+                            if (!blueClicked){
                             randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
 
                             if (color > 30) {
@@ -106,6 +111,7 @@ public class Game1Activity extends AppCompatActivity {
 
 
                             }
+                        }
 
                             startButton2.setVisibility(View.VISIBLE);
                         }
@@ -116,9 +122,33 @@ public class Game1Activity extends AppCompatActivity {
             gameButtonBlue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    blueClicked = true;
                     gameButtonBlue.setVisibility(View.INVISIBLE);
                     startButton2.setText("Too fast!");
                     startButton2.setVisibility(View.VISIBLE);
+                    Map<String, Object> score = new HashMap<>();
+                    score.put("user", userEmail);
+                    score.put("userName", userName);
+                    score.put("score", NULL);
+                    score.put("buttonClicked", "blue");
+                    score.put("date", Calendar.getInstance().getTime());
+
+
+
+                    db.collection("scores")
+                            .add(score)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
                 }
             });
 
@@ -132,7 +162,9 @@ public class Game1Activity extends AppCompatActivity {
 
                     Map<String, Object> score = new HashMap<>();
                     score.put("user", userEmail);
+                    score.put("userName", userName);
                     score.put("score", difference);
+                    score.put("buttonClicked", "green");
                     score.put("date", Calendar.getInstance().getTime());
 
 
@@ -160,6 +192,31 @@ public class Game1Activity extends AppCompatActivity {
                     gameButtonRed.setVisibility(View.INVISIBLE);
                     startButton2.setText("Don't click on red!");
                     startButton2.setVisibility(View.VISIBLE);
+
+
+                    Map<String, Object> score = new HashMap<>();
+                    score.put("user", userEmail);
+                    score.put("userName", userName);
+                    score.put("score", NULL);
+                    score.put("buttonClicked", "red");
+                    score.put("date", Calendar.getInstance().getTime());
+
+
+
+                    db.collection("scores")
+                            .add(score)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
                 }
             });
 
