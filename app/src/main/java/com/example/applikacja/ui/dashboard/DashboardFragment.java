@@ -83,6 +83,7 @@ public class DashboardFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (!isNull(document.get("score")) && Integer.valueOf(String.valueOf(document.get("score"))) != 0)
                                 {
+                                    if (scores.size() < 10)
                                     scores.add(document);
                                     Log.d("Success", document.getId() + " => " + document.getData());
                                 }
