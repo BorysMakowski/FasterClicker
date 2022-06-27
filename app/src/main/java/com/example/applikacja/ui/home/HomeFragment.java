@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), Game2Activity.class);
+                Intent intent = new Intent(getActivity(), Game3Activity.class);
                 startActivity(intent);
             }
         });
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), Game3Activity.class);
+                Intent intent = new Intent(getActivity(), Game2Activity.class);
                 startActivity(intent);
             }
         });

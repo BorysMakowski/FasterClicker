@@ -37,6 +37,8 @@ public class Game3Activity extends AppCompatActivity {
     String userEmail;
     String userName;
     int finscore = 0;
+    int speed = 300;
+    int streak = 0;
     Vector<Integer> scores = new Vector<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +78,8 @@ public class Game3Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startButton.setVisibility(View.INVISIBLE);
-
-                for (int i = 1; i < 10; i++) {
+                gameButtonBlue.setVisibility(View.VISIBLE);
+                for (int i = 1; i < 100; i++) {
                     int finalI = i;
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -86,22 +88,21 @@ public class Game3Activity extends AppCompatActivity {
                             gameButtonBlue.setVisibility(View.VISIBLE);
                             randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
                             color = (int) (Math.random() * ((100) + 1));
-                            Log.d("dx", String.valueOf(dx));
-                            Log.d("dy", String.valueOf(dy));
+
                             Random R = new Random();
                             dx = R.nextFloat() * displaymetrics.widthPixels;
                             dy = R.nextFloat() * displaymetrics.heightPixels;
 
-                            if (dx > displaymetrics.widthPixels * 0.7) {
+                            if (dx > displaymetrics.widthPixels * 0.8) {
                                 dx -= 200;
                             }
-                            if (dx < displaymetrics.widthPixels * 0.3) {
+                            if (dx < displaymetrics.widthPixels * 0.2) {
                                 dx += 200;
                             }
-                            if (dy > displaymetrics.heightPixels * 0.7) {
+                            if (dy > displaymetrics.heightPixels * 0.8) {
                                 dy -= 200;
                             }
-                            if (dy < displaymetrics.heightPixels * 0.3) {
+                            if (dy < displaymetrics.heightPixels * 0.2) {
                                 dy += 200;
                             }
                             if (!blueClicked) {
@@ -111,21 +112,17 @@ public class Game3Activity extends AppCompatActivity {
                                 gameButtonGreen.animate()
                                         .x(dx)
                                         .y(dy)
-                                        .setDuration(300)
+                                        .setDuration(speed)
                                         .start();
 
-                                Log.d("green", String.valueOf(randNum));
                                 gameButtonBlue.setVisibility(View.INVISIBLE);
                                 gameButtonGreen.setVisibility(View.VISIBLE);
                                 startTime = System.currentTimeMillis();
-                                handler.postDelayed(() -> {
-                                    gameButtonGreen.setVisibility(View.INVISIBLE);
-                                }, 1300 + finalI * 1000);
 
 
                             }
                         }
-                    }, randNum + i * 1000);
+                    }, randNum + i * 500);
                 }
 
 
@@ -137,15 +134,9 @@ public class Game3Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 blueClicked = true;
-                gameButtonBlue.setVisibility(View.INVISIBLE);
-                startButton2.setText("Too fast!");
-                startButton2.setVisibility(View.VISIBLE);
-                Map<String, Object> score = new HashMap<>();
-                score.put("user", userEmail);
-                score.put("userName", userName);
-                score.put("score", NULL);
-                score.put("buttonClicked", "blue");
-                score.put("date", Calendar.getInstance().getTime());
+
+      //          startButton2.setVisibility(View.VISIBLE);
+                streak = 0;
 
 
 
@@ -171,7 +162,13 @@ public class Game3Activity extends AppCompatActivity {
             public void onClick(View view) {
                 gameButtonGreen.setVisibility(View.INVISIBLE);
                 difference = System.currentTimeMillis() - startTime;
+                streak++;
+                if (streak > 5 && streak < 10)
+                    speed = 500;
+                else if (streak > 10)
+                    speed = 700;
 
+                Log.d("STREAK AAAAAAAAAAAAAAAAAAA", String.valueOf(streak));
                 //    startButton2.setText(String.valueOf(difference) + " ms");
                 //scores.add((int)difference);
                 finscore += difference;
