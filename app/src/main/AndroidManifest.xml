@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" >
         <activity
+            android:name=".Game3Activity"
+            android:exported="false" />
+        <activity
             android:name=".Game2Activity"
             android:exported="false" />
         <activity

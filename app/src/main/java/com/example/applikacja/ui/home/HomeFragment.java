@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.applikacja.Game1Activity;
 import com.example.applikacja.Game2Activity;
+import com.example.applikacja.Game3Activity;
 import com.example.applikacja.MainActivity;
 import com.example.applikacja.R;
 import com.example.applikacja.ui.login.LoginActivity;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment {
 
         Button game1 = root.findViewById(R.id.game1button);
         Button game2 = root.findViewById(R.id.game2button);
+        Button game3 = root.findViewById(R.id.game3button);
 
         game1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +70,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        game3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent = new Intent(getActivity(), Game3Activity.class);
+                startActivity(intent);
+            }
+        });
         return root;
     }
 }

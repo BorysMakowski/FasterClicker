@@ -1,25 +1,18 @@
 package com.example.applikacja;
 
-import static android.content.ContentValues.TAG;
 import static java.sql.Types.NULL;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.applikacja.ui.home.HomeViewModel;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -28,7 +21,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
-public class Game2Activity extends AppCompatActivity {
+public class Game3Activity extends AppCompatActivity {
+
     private HomeViewModel homeViewModel;
     long startTime;
     long difference;
@@ -47,7 +41,7 @@ public class Game2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game2);
+        setContentView(R.layout.activity_game3);
         final DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -83,41 +77,41 @@ public class Game2Activity extends AppCompatActivity {
             public void onClick(View view) {
                 startButton.setVisibility(View.INVISIBLE);
 
-                for(int i= 1; i < 10; i++){
+                for (int i = 1; i < 10; i++) {
                     int finalI = i;
                     handler.postDelayed(new Runnable() {
-                    public void run() {
+                        public void run() {
 
 
-                        gameButtonBlue.setVisibility(View.VISIBLE);
-                        randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
-                        color =  (int) (Math.random() * ((100) + 1));
-                        Log.d("dx", String.valueOf(dx));
-                        Log.d("dy", String.valueOf(dy));
-                        Random R = new Random();
-                        dx = R.nextFloat() * displaymetrics.widthPixels;
-                        dy = R.nextFloat() * displaymetrics.heightPixels;
-
-                        if(dx > displaymetrics.widthPixels * 0.7) {
-                            dx -= 200;
-                        }
-                        if(dx < displaymetrics.widthPixels * 0.3) {
-                            dx += 200;
-                        }
-                        if(dy > displaymetrics.heightPixels * 0.7) {
-                            dy -= 200;
-                        }
-                        if(dy < displaymetrics.heightPixels * 0.3) {
-                            dy += 200;
-                        }
-                        if (!blueClicked){
+                            gameButtonBlue.setVisibility(View.VISIBLE);
                             randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
-                           if (color > 30) {
+                            color = (int) (Math.random() * ((100) + 1));
+                            Log.d("dx", String.valueOf(dx));
+                            Log.d("dy", String.valueOf(dy));
+                            Random R = new Random();
+                            dx = R.nextFloat() * displaymetrics.widthPixels;
+                            dy = R.nextFloat() * displaymetrics.heightPixels;
 
-                               gameButtonGreen.animate()
+                            if (dx > displaymetrics.widthPixels * 0.7) {
+                                dx -= 200;
+                            }
+                            if (dx < displaymetrics.widthPixels * 0.3) {
+                                dx += 200;
+                            }
+                            if (dy > displaymetrics.heightPixels * 0.7) {
+                                dy -= 200;
+                            }
+                            if (dy < displaymetrics.heightPixels * 0.3) {
+                                dy += 200;
+                            }
+                            if (!blueClicked) {
+                                randNum = Min + (int) (Math.random() * ((Max - Min) + 1));
+
+
+                                gameButtonGreen.animate()
                                         .x(dx)
                                         .y(dy)
-                                        .setDuration(0)
+                                        .setDuration(300)
                                         .start();
 
                                 Log.d("green", String.valueOf(randNum));
@@ -126,32 +120,13 @@ public class Game2Activity extends AppCompatActivity {
                                 startTime = System.currentTimeMillis();
                                 handler.postDelayed(() -> {
                                     gameButtonGreen.setVisibility(View.INVISIBLE);
-                                }, 1300 + finalI *1000);
-
-                            } else {
-
-                               gameButtonRed.animate()
-                                       .x(dx)
-                                       .y(dy)
-                                       .setDuration(0)
-                                       .start();
-
-                               Log.d("red", String.valueOf(randNum));
-                                gameButtonBlue.setVisibility(View.INVISIBLE);
-                                gameButtonRed.setVisibility(View.VISIBLE);
-
-                                handler.postDelayed(() -> {
-                                    gameButtonRed.setVisibility(View.INVISIBLE);
-                                }, 1000 + finalI *1000);
+                                }, 1300 + finalI * 1000);
 
 
-                           }
+                            }
                         }
-
-
-                    }
-                }, randNum + i*1000);
-            }
+                    }, randNum + i * 1000);
+                }
 
 
             }
@@ -197,9 +172,9 @@ public class Game2Activity extends AppCompatActivity {
                 gameButtonGreen.setVisibility(View.INVISIBLE);
                 difference = System.currentTimeMillis() - startTime;
 
-            //    startButton2.setText(String.valueOf(difference) + " ms");
+                //    startButton2.setText(String.valueOf(difference) + " ms");
                 //scores.add((int)difference);
-                finscore+=difference;
+                finscore += difference;
                 scoreTextView.setText(String.valueOf(finscore));
               /*  Map<String, Object> score = new HashMap<>();
                 score.put("user", userEmail);
@@ -231,9 +206,9 @@ public class Game2Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 gameButtonRed.setVisibility(View.INVISIBLE);
-              //  startButton2.setText("Don't click on red!");
-            //    startButton2.setVisibility(View.VISIBLE);
-                finscore-=500;
+                //  startButton2.setText("Don't click on red!");
+                //    startButton2.setVisibility(View.VISIBLE);
+                finscore -= 500;
                 scoreTextView.setText(String.valueOf(finscore));
              /*   Map<String, Object> score = new HashMap<>();
                 score.put("user", userEmail);
@@ -260,7 +235,6 @@ public class Game2Activity extends AppCompatActivity {
                         });*/
             }
         });
-
+    }
 
     }
-}
