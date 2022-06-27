@@ -47,7 +47,7 @@ public class NotificationsFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.textViewEmail);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        textView.setText("Hello," + auth.getCurrentUser().getDisplayName());
+        textView.setText("Hello, " + auth.getCurrentUser().getDisplayName());
 
         final TextView textViewBestScore = root.findViewById(R.id.textViewBestScore);
         final TextView textViewRed = root.findViewById(R.id.textViewRed);
