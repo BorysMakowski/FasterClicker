@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.applikacja.ui.login.LoginActivity;
@@ -39,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         final Button registerButton = findViewById(R.id.register);
         final Button loginButton = findViewById(R.id.login2);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        TextView error = findViewById(R.id.textView21);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +53,22 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(nickEditText.getText().toString().equals("")){
+                    error.setText("Enter nickname");
+                }
+                else if(usernameEditText.getText().toString().equals("")) {
+                    error.setText("Enter email");
+                }
+                else if(passwordEditText.getText().toString().equals("")){
+                    error.setText("Enter password");
+                }
+                else if(password2EditText.getText().toString().equals("")){
+                    error.setText("Confirm password");
+                }
+                else if(!passwordEditText.getText().toString().equals(password2EditText.getText().toString())){
+                    error.setText("Passwords do not match");
+                }
+                else{
                 mAuth.createUserWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -86,11 +104,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                                 else{
                                     Log.w("FAILURE", "signInWithCustomToken:failure", task.getException());
-                                    Toast.makeText(RegisterActivity.this, "Rejestracja nieudana",
-                                            Toast.LENGTH_SHORT).show();
+                                    error.setText("Something went wrong");
                                 }
                             }
-                        });
+                        });}
             }
         });
     }

@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final Button registerButton = findViewById(R.id.register);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        TextView error = findViewById(R.id.textView20);
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -64,9 +66,19 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
 
 
+                if(usernameEditText.getText().toString().equals("") && passwordEditText.getText().toString().equals("")){
+                    error.setText("Enter email and password");
+                }
+                else if(usernameEditText.getText().toString().equals("")){
+                    error.setText("Enter email");
+                }
+                else if(passwordEditText.getText().toString().equals("")){
+                    error.setText("Enter password");
+                }
+                else{
+                    loadingProgressBar.setVisibility(View.VISIBLE);
                 mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -84,12 +96,12 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("FAILURE", "signInWithCustomToken:failure", task.getException());
-                                    Toast.makeText(LoginActivity.this, "Logowanie nieudane",
-                                            Toast.LENGTH_SHORT).show();
+                                    error.setText("User does not exist.");
+
                                 }
                             }
                         });
-            }
+            }}
                 
 
         });

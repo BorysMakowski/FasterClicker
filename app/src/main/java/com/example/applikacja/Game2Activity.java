@@ -43,6 +43,7 @@ public class Game2Activity extends AppCompatActivity {
     String userEmail;
     String userName;
     int finscore = 0;
+
     Vector<Integer> scores = new Vector<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class Game2Activity extends AppCompatActivity {
         final Button gameButtonRed = findViewById(R.id.gameButtonRed);
         final Button gameButtonBlue = findViewById(R.id.gameButtonBlue);
         final TextView scoreTextView = findViewById(R.id.textView16);
+        TextView congratsTextView = findViewById(R.id.textView23);
 
         startButton2.setVisibility(View.INVISIBLE);
         startButton2.setOnClickListener(new View.OnClickListener() {
@@ -85,9 +87,14 @@ public class Game2Activity extends AppCompatActivity {
 
                 for(int i= 1; i < 10; i++){
                     int finalI = i;
+
+
                     handler.postDelayed(new Runnable() {
                     public void run() {
-
+                        if(finalI == 9)
+                            end = true;
+                        if(end)
+                            startButton2.setVisibility(View.VISIBLE);
 
                         gameButtonBlue.setVisibility(View.VISIBLE);
                         randNum = Min + (int) (Math.random() * ((Max - Min) + 1));

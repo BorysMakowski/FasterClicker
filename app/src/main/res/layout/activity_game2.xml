@@ -18,10 +18,11 @@
 
     <Button
         android:id="@+id/startButton2"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="Try again"
+        android:layout_width="331dp"
+        android:layout_height="232dp"
+        android:layout_marginTop="304dp"
 
+        android:text="Try again"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -78,4 +79,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.881" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your score is:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.819" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
